@@ -70,7 +70,7 @@ resource "azurerm_route_table" "route_table" {
   name                          = "${var.vnet_name}-rt"
   resource_group_name           = var.resource_group_name
   location                      = var.location
-  disable_bgp_route_propagation = false
+  bgp_route_propagation_enabled = true
 
   dynamic "route" {
     for_each = var.custom_routes

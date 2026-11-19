@@ -14,7 +14,7 @@ locals {
     for zone_name, zone in azurerm_private_dns_zone.zones : [
       for vnet_name, vnet in var.vnet_links : {
         key                  = "${zone_name}-${vnet_name}"
-        zone_name            = zone.name
+        zone_id              = zone.id
         vnet_name            = vnet_name
         vnet_id              = vnet.vnet_id
         registration_enabled = vnet.registration_enabled
@@ -23,15 +23,14 @@ locals {
   ])
 }
 
-# Dynamic VNet Links
+# Dynamic VNet Links to Private DNS Zones
 resource "azurerm_private_dns_zone_virtual_network_link" "links" {
   for_each = { for pair in local.zone_vnet_pairs : pair.key => pair }
 
-  name                  = "link-${each.value.vnet_name}"
-  resource_group_name   = var.resource_group_name
-  private_dns_zone_name = each.value.zone_name
-  virtual_network_id    = each.value.vnet_id
-  registration_enabled  = each.value.registration_enabled
+  name                 = "link-${each.value.vnet_name}"
+  private_dns_zone_id  = each.value.zone_id
+  virtual_network_id   = each.value.vnet_id
+  registration_enabled = each.value.registration_enabled
 
   tags = var.tags
 }

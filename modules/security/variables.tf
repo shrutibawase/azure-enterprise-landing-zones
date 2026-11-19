@@ -43,10 +43,10 @@ variable "network_acls" {
 variable "private_endpoints" {
   description = "Map of private endpoints with sub-resources and private DNS zone associations."
   type = map(object({
-    subnet_id           = string
-    target_resource_id  = string
-    subresource_names   = list(string)
-    dns_zone_group_name = optional(string, "default")
+    subnet_id            = string
+    target_resource_id   = string
+    subresource_names    = list(string)
+    dns_zone_group_name  = optional(string, "default")
     private_dns_zone_ids = optional(list(string), [])
   }))
   default = {}
