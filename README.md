@@ -136,3 +136,28 @@ terraform apply tfplan
 - **CIS Microsoft Azure Foundations Benchmark v2.0**: 100% Compliant.
 - **Zero-Trust Access**: No public IP assigned to compute or database tiers; all administrative access routed via Azure Bastion and Private Endpoints.
 - **SLSA Level 3 CI/CD**: Signed state artifacts and policy-guarded delivery.
+
+
+---
+
+## 🏛️ Enterprise Hub-and-Spoke Transit Architecture
+
+The landing zone integrates complete transit networking and perimeter security in compliance with the Microsoft Cloud Adoption Framework (CAF):
+
+- **Centralized Firewall Inspection**: Azure Firewall Standard/Premium (`modules/firewall`) managing L4/L7 threat intelligence, application rules, and network rule collections.
+- **Forced Tunneling (0.0.0.0/0)**: All outbound internet flows from workload spokes are directed through the Azure Firewall private IP.
+- **Bidirectional VNet Peering**: Fully automated Hub-to-Spoke and Spoke-to-Hub transit links (`modules/peering`) with gateway transit.
+- **Zero-Trust Administrative Access**: Azure Bastion (`modules/bastion`) providing native browser-based RDP/SSH without public IPs on VMs.
+- **Central Private DNS Resolution**: Private DNS Zones and dynamic VNet links (`modules/dns`) enabling private endpoint name resolution.
+
+### Architectural Guide & Tests
+
+- [Hub-and-Spoke Transit Networking Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/hub-and-spoke-architecture.md)
+- Run automated Terraform validation suite:
+  ```bash
+  # Bash
+  ./scripts/test-terraform.sh
+
+  # PowerShell
+  .\scripts\test-terraform.ps1
+  ```
