@@ -17,3 +17,14 @@ output "vmss_id" {
   description = "The Resource ID of the Virtual Machine Scale Set."
   value       = module.compute.vmss_id
 }
+
+
+output "firewall_private_ip" {
+  description = "Private IP of the central Azure Firewall used as UDR next-hop."
+  value       = module.firewall.firewall_private_ip
+}
+
+output "firewall_public_ip" {
+  description = "Public IP of the central Azure Firewall."
+  value       = module.firewall.firewall_public_ip
+}

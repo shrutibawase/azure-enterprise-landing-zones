@@ -28,6 +28,20 @@ module "networking" {
   depends_on = [module.governance]
 }
 
+module "firewall" {
+  source = "./modules/firewall"
+
+  resource_group_name = "rg-enterprise-network-${var.environment}"
+  location            = var.primary_location
+  firewall_name       = "afw-hub-${var.environment}"
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
+  subnet_id           = module.networking.subnet_ids["AzureFirewallSubnet"]
+  tags                = var.global_tags
+
+  depends_on = [module.governance, module.networking]
+}
+
 resource "tls_private_key" "ssh" {
   algorithm = "RSA"
   rsa_bits  = 4096
