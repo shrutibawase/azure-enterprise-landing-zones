@@ -57,3 +57,33 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "cmk_keys" {
+  description = "Map of Customer-Managed Keys (CMK) to provision inside Key Vault."
+  type = map(object({
+    key_type = optional(string, "RSA")
+    key_size = optional(number, 4096)
+    key_opts = optional(list(string), [
+      "decrypt",
+      "encrypt",
+      "sign",
+      "unwrapKey",
+      "verify",
+      "wrapKey"
+    ])
+    tags = optional(map(string), {})
+  }))
+  default = {
+    "cmk-storage-encryption" = {
+      key_type = "RSA"
+      key_size = 4096
+      tags     = { "Usage" = "StorageDoubleEncryption" }
+    }
+    "cmk-disk-encryption" = {
+      key_type = "RSA"
+      key_size = 4096
+      tags     = { "Usage" = "VMSSOSDiskEncryption" }
+    }
+  }
+}
