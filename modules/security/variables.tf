@@ -87,3 +87,10 @@ variable "cmk_keys" {
     }
   }
 }
+
+
+variable "log_analytics_workspace_id" {
+  description = "Target Log Analytics Workspace Resource ID for Key Vault audit logging."
+  type        = string
+  default     = null
+}
