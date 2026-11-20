@@ -8,6 +8,15 @@ resource "azurerm_key_vault_key" "cmk" {
   key_size     = each.value.key_size
   key_opts     = each.value.key_opts
 
+  rotation_policy {
+    automatic {
+      time_before_expiry = "P30D"
+    }
+
+    expire_after         = "P365D"
+    notify_before_expiry = "P29D"
+  }
+
   tags = merge(
     var.tags,
     each.value.tags,
