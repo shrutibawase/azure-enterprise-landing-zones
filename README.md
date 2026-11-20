@@ -161,3 +161,28 @@ The landing zone integrates complete transit networking and perimeter security i
   # PowerShell
   .\scripts\test-terraform.ps1
   ```
+
+
+---
+
+## 🛡️ Zero-Trust Identity, CMK & Data Encryption
+
+The landing zone enforces strict hardware-level encryption and passwordless access:
+
+- **Passwordless Managed Identities**: User-Assigned Managed Identities (`modules/identity`) eliminating static secrets.
+- **Customer-Managed Keys (CMK)**: RSA 4096-bit keys inside Azure Key Vault Premium HSM (`modules/security/cmk.tf`).
+- **Automated ISO 27001 Key Rotation**: Cryptographic keys automatically rotate 30 days prior to expiration.
+- **Double Infrastructure Encryption**: Storage accounts (`modules/storage`) enforce dual 256-bit AES encryption at both host and service tiers.
+- **Fine-Grained Azure RBAC**: Key Vault authorization governed strictly via Entra ID RBAC without legacy access policies.
+
+### Guides & Security Verification
+
+- [Identity & CMK Encryption Architecture Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/identity-and-encryption-guide.md)
+- Run security invariant verification suite:
+  ```bash
+  # Bash
+  ./scripts/test-security.sh
+
+  # PowerShell
+  .\scripts\test-security.ps1
+  ```
