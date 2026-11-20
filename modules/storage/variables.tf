@@ -58,3 +58,26 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "containers" {
+  description = "Map of blob containers to provision (all default to private access)."
+  type = map(object({
+    container_access_type = optional(string, "private")
+  }))
+  default = {
+    "bootdiagnostics" = { container_access_type = "private" }
+    "backups"         = { container_access_type = "private" }
+    "audit-logs"      = { container_access_type = "private" }
+  }
+}
+
+variable "private_endpoint" {
+  description = "Private Endpoint configuration for Blob storage access."
+  type = object({
+    enabled              = bool
+    subnet_id            = string
+    private_dns_zone_ids = optional(list(string), [])
+  })
+  default = null
+}
