@@ -94,3 +94,13 @@ variable "log_analytics_workspace_id" {
   type        = string
   default     = null
 }
+
+
+variable "role_assignments" {
+  description = "Map of Azure RBAC role assignments to apply at Key Vault scope."
+  type = map(object({
+    role_definition_name = string
+    principal_id         = string
+  }))
+  default = {}
+}
