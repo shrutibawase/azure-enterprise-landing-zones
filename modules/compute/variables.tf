@@ -59,3 +59,10 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "app_gateway_backend_pool_ids" {
+  description = "List of Application Gateway backend pool IDs to attach to the VMSS network interface."
+  type        = list(string)
+  default     = []
+}

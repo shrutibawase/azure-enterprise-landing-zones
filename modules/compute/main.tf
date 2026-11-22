@@ -29,9 +29,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     primary = true
 
     ip_configuration {
-      name      = "internal"
-      primary   = true
-      subnet_id = var.subnet_id
+      name                                         = "internal"
+      primary                                      = true
+      subnet_id                                    = var.subnet_id
+      application_gateway_backend_address_pool_ids = var.app_gateway_backend_pool_ids
     }
   }
 
