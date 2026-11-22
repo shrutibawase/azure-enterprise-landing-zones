@@ -24,6 +24,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     caching              = "ReadWrite"
   }
 
+  custom_data = var.custom_data != null ? var.custom_data : filebase64("${path.module}/cloud-init.yaml")
+
   network_interface {
     name    = "${var.vmss_name}-nic"
     primary = true

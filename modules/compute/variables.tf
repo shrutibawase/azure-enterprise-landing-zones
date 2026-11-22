@@ -66,3 +66,10 @@ variable "app_gateway_backend_pool_ids" {
   type        = list(string)
   default     = []
 }
+
+
+variable "custom_data" {
+  description = "Base64-encoded cloud-init script for bootstrap execution."
+  type        = string
+  default     = null
+}

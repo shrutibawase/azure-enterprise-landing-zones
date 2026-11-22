@@ -1,0 +1,63 @@
+#cloud-config
+# Enterprise Cloud-Init Bootstrap for Zero-Trust Ubuntu VMSS Workloads
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - auditd
+  - jq
+
+write_files:
+  # Hardened sysctl kernel configuration
+  - path: /etc/sysctl.d/99-security-hardening.conf
+    permissions: '0644'
+    content: |
+      net.ipv4.conf.all.accept_redirects = 0
+      net.ipv4.conf.default.accept_redirects = 0
+      net.ipv4.conf.all.send_redirects = 0
+      net.ipv4.conf.default.send_redirects = 0
+      net.ipv4.tcp_syncookies = 1
+      net.ipv4.conf.all.rp_filter = 1
+      net.ipv4.conf.default.rp_filter = 1
+      fs.suid_dumpable = 0
+
+  # Systemd service for application readiness healthz probe
+  - path: /etc/systemd/system/healthz-probe.service
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Application Gateway Health Probe Responder
+      After=network.target
+
+      [Service]
+      Type=simple
+      ExecStart=/usr/bin/python3 -m http.server 80 --bind 0.0.0.0
+      WorkingDirectory=/var/www/html
+      Restart=always
+      User=nobody
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  # Apply hardened sysctl
+  - sysctl --system
+
+  # Prepare healthz directory
+  - mkdir -p /var/www/html
+  - echo '{"status":"healthy","workload":"enterprise-microservice","timestamp":"booted"}' > /var/www/html/healthz
+  - chmod -R 755 /var/www/html
+
+  # Start health probe service
+  - systemctl daemon-reload
+  - systemctl enable --now healthz-probe.service
+
+  # Harden SSH configuration
+  - sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - systemctl restart ssh
