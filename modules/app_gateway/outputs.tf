@@ -17,3 +17,9 @@ output "backend_address_pool_id" {
   description = "Resource ID of the backend address pool (used by VMSS NIC configuration)."
   value       = tolist(azurerm_application_gateway.appgw.backend_address_pool)[0].id
 }
+
+
+output "waf_policy_id" {
+  description = "Resource ID of the Web Application Firewall (WAF) Policy."
+  value       = azurerm_web_application_firewall_policy.waf_policy.id
+}

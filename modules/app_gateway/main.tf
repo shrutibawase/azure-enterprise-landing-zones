@@ -32,6 +32,8 @@ resource "azurerm_application_gateway" "appgw" {
     tier = "WAF_v2"
   }
 
+  firewall_policy_id = azurerm_web_application_firewall_policy.waf_policy.id
+
   autoscale_configuration {
     min_capacity = var.min_capacity
     max_capacity = var.max_capacity
