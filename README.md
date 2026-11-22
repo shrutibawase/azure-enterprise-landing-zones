@@ -186,3 +186,29 @@ The landing zone enforces strict hardware-level encryption and passwordless acce
   # PowerShell
   .\scripts\test-security.ps1
   ```
+
+
+---
+
+## ⚡ Multi-AZ Compute, Application Gateway WAF & Auto-Scaling
+
+The landing zone integrates resilient web-tier ingress and self-healing scale sets:
+
+- **Application Gateway v2 (WAF_v2)**: Zone-redundant ingress (`modules/app_gateway`) with autoscale capacity (min 2, max 10).
+- **OWASP 3.2 Prevention Mode**: Strict perimeter defense against SQLi, XSS, and automated bots with client rate-limiting.
+- **Multi-AZ VMSS Cluster**: Compute instances (`modules/compute`) distributed across Zones 1, 2, and 3 with Premium ZRS storage.
+- **Kernel-Level Cloud-Init Hardening**: Enforces sysctl security parameters and bootstraps `/healthz` readiness probes.
+- **Dynamic Metric Auto-Scaling**: Automatic horizontal scaling triggered by CPU thresholds (> 75% scale out, < 25% scale in).
+- **Zero-Downtime Rolling Upgrades**: Batch-based OS patching and instance replacement with automated health checking.
+
+### Architectural Guide & Tests
+
+- [Compute & WAF Architecture Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/compute-and-waf-guide.md)
+- Run compute invariant validation suite:
+  ```bash
+  # Bash
+  ./scripts/test-compute.sh
+
+  # PowerShell
+  .\scripts\test-compute.ps1
+  ```
