@@ -6,6 +6,14 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   instances           = var.instances
   admin_username      = var.admin_username
   zones               = ["1", "2", "3"]
+  upgrade_mode        = "Rolling"
+
+  rolling_upgrade_policy {
+    max_batch_instance_percent              = 20
+    max_unhealthy_instance_percent          = 20
+    max_unhealthy_upgraded_instance_percent = 5
+    pause_time_between_batches              = "PT0S"
+  }
 
   admin_ssh_key {
     username   = var.admin_username
