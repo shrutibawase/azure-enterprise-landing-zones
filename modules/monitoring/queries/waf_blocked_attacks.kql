@@ -1,0 +1,25 @@
+// ==============================================================================
+// KQL Runbook: Application Gateway WAF Blocked Threats & OWASP Violations
+// Purpose: Aggregate blocked SQL injection, XSS, RCE, and malicious bot activities
+// Use Case: Web application perimeter defense, SOC alert triage, IP blacklisting
+// ==============================================================================
+
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS"
+| where Category == "ApplicationGatewayFirewallLog"
+| where action_s == "Blocked"
+| project
+    TimeGenerated,
+    clientIp_s,
+    requestUri_s,
+    ruleId_s,
+    ruleGroup_s,
+    message_s,
+    action_s,
+    hostname_s
+| summarize
+    BlockedCount = count(),
+    AttackRulesTriggered = make_set(ruleId_s),
+    TargetedURIs = make_set(requestUri_s)
+    by clientIp_s, ruleGroup_s, bin(TimeGenerated, 15m)
+| order by BlockedCount desc

@@ -1,0 +1,19 @@
+// ==============================================================================
+// KQL Runbook: Azure Firewall Dropped & Denied Network Traffic
+// Purpose: Identify dropped connection attempts across network and application rules
+// Use Case: SecOps triage, perimeter reconnaissance detection, egress violation auditing
+// ==============================================================================
+
+AzureDiagnostics
+| where Category in ("AzureFirewallNetworkRule", "AzureFirewallApplicationRule")
+| where Action_s == "Deny" or msg_s has "Deny"
+| extend
+    SourceIP = tostring(split(msg_s, " ")[3]),
+    DestinationIP = tostring(split(msg_s, " ")[5]),
+    Protocol = tostring(split(msg_s, " ")[1]),
+    TargetPort = tostring(split(msg_s, " ")[6])
+| summarize
+    DeniedCount = count(),
+    UniqueSources = dcount(SourceIP)
+    by DestinationIP, TargetPort, Protocol, bin(TimeGenerated, 15m)
+| order by DeniedCount desc

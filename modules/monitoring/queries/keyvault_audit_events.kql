@@ -1,0 +1,24 @@
+// ==============================================================================
+// KQL Runbook: Azure Key Vault Audit Events & Access Anomalies
+// Purpose: Track cryptographic operations, secret access, and HTTP 401/403 authorization failures
+// Use Case: ISO/IEC 27001 & CIS Azure Benchmark audit logging, insider threat detection
+// ==============================================================================
+
+AzureDiagnostics
+| where ResourceType == "VAULTS"
+| where Category == "AuditEvent"
+| project
+    TimeGenerated,
+    OperationName,
+    CallerIPAddress,
+    ResultType,
+    httpStatusCode_d,
+    identity_claim_oid_g,
+    identity_claim_upn_s,
+    id_s
+| where httpStatusCode_d in (401, 403) or ResultType != "Success"
+| summarize
+    FailedAttempts = count(),
+    Operations = make_set(OperationName)
+    by CallerIPAddress, identity_claim_upn_s, httpStatusCode_d, bin(TimeGenerated, 1h)
+| order by FailedAttempts desc

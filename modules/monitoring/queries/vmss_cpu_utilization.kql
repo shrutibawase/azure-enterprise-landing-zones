@@ -1,0 +1,16 @@
+// ==============================================================================
+// KQL Runbook: VMSS Host CPU Utilization & Performance Trends
+// Purpose: Track average, 95th percentile, and maximum CPU utilization per VMSS instance
+// Use Case: Capacity planning, horizontal autoscale evaluation, performance bottleneck analysis
+// ==============================================================================
+
+InsightsMetrics
+| where Origin == "vm.azm.ms"
+| where Namespace == "Processor" and Name == "UtilizationPercentage"
+| extend HostName = tostring(todynamic(Tags)["vm.azm.ms/computerName"])
+| summarize
+    AvgCpuPercent = round(avg(Val), 2),
+    P95CpuPercent = round(percentile(Val, 95), 2),
+    MaxCpuPercent = round(max(Val), 2)
+    by bin(TimeGenerated, 5m), Computer, HostName
+| order by TimeGenerated desc, AvgCpuPercent desc
