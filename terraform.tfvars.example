@@ -16,6 +16,10 @@ resource_groups = {
     location = "eastus2"
     tags     = { "Tier" = "Compute", "CostCenter" = "Apps-303" }
   }
+  "rg-enterprise-monitoring-prod" = {
+    location = "eastus2"
+    tags     = { "Tier" = "Monitoring", "CostCenter" = "Ops-404" }
+  }
 }
 
 vnet_address_space = ["10.100.0.0/16"]

@@ -102,3 +102,20 @@ module "compute" {
 
   depends_on = [module.governance, module.networking]
 }
+
+
+module "monitoring" {
+  source = "./modules/monitoring"
+
+  resource_group_name = contains(keys(var.resource_groups), "rg-enterprise-monitoring-${var.environment}") ? "rg-enterprise-monitoring-${var.environment}" : "rg-enterprise-security-${var.environment}"
+  location            = var.primary_location
+  workspace_name      = "law-enterprise-${var.environment}"
+  retention_in_days   = 30
+  daily_quota_gb      = 10
+  target_vmss_id      = module.compute.vmss_id
+  notification_email  = "secops@enterprise-domain.internal"
+
+  tags = var.global_tags
+
+  depends_on = [module.governance, module.compute]
+}

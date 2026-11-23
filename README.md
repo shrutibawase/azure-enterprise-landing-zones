@@ -238,3 +238,29 @@ The landing zone integrates automated shift-left code analysis and runtime polic
   # PowerShell
   .\scripts\test-governance.ps1
   ```
+
+
+---
+
+## 📊 Enterprise Observability, Metric Alerting & KQL Runbooks
+
+The landing zone integrates a centralized telemetry, log aggregation, and incident alerting framework:
+
+- **Central Log Analytics Workspace**: High-throughput log aggregation (`modules/monitoring/workspace.tf`) with 30-day retention and a 10 GB/day FinOps billing cap.
+- **Workspace-Based Application Insights**: End-to-end distributed tracing, APM, and performance monitoring directly backed by the Log Analytics workspace.
+- **Azure Monitor Data Collection Rules (DCR)**: Granular Linux Syslog facilities (`auth`, `cron`, `daemon`) and OS performance metrics streaming (`modules/monitoring/dcr.tf`).
+- **Metric Alerting Engine**: Real-time alerts for application failures, high HTTP latency, and VMSS CPU spikes (`modules/monitoring/alerts.tf`).
+- **Multi-Channel Incident Dispatch**: Action groups (`modules/monitoring/action_group.tf`) routing alerts to SecOps email, PagerDuty/ServiceNow webhooks, and Azure RBAC monitoring contributors.
+- **Production KQL Runbooks**: Production-grade queries for VMSS performance trends, Azure Firewall drops, Key Vault audit events, and WAF blocked attacks (`modules/monitoring/queries/`).
+
+### Architectural Guide & Tests
+
+- [Enterprise Observability & Monitoring Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/observability-and-monitoring-guide.md)
+- Run automated monitoring test suite:
+  ```bash
+  # Bash
+  ./scripts/test-monitoring.sh
+
+  # PowerShell
+  .\scripts\test-monitoring.ps1
+  ```

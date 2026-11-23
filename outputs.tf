@@ -44,3 +44,24 @@ output "custom_policy_allowed_locations_id" {
   description = "Resource ID of the custom allowed locations policy definition."
   value       = module.governance.custom_policy_allowed_locations_id
 }
+
+
+output "log_analytics_workspace_id" {
+  description = "The Resource ID of the central Log Analytics Workspace."
+  value       = module.monitoring.workspace_id
+}
+
+output "application_insights_id" {
+  description = "The Resource ID of the Application Insights component."
+  value       = module.monitoring.app_insights_id
+}
+
+output "data_collection_rule_id" {
+  description = "The Resource ID of the Azure Monitor Data Collection Rule for Linux telemetry."
+  value       = module.monitoring.data_collection_rule_id
+}
+
+output "action_group_id" {
+  description = "The Resource ID of the Azure Monitor Action Group for incident alerting."
+  value       = module.monitoring.action_group_id
+}
