@@ -1,0 +1,26 @@
+# Checkov Static Security Analysis Configuration
+# Documentation: https://www.checkov.io/2.Basics/Configuring%20Checkov.html
+
+framework:
+  - terraform
+
+compact: true
+soft-fail: false
+quiet: true
+
+# Directory scanning targets
+directory:
+  - .
+
+# Suppressions and architectural justifications
+skip-check:
+  # CKV_AZURE_41: Ensure that the expiration date is set on all keys (Managed dynamically by rotation_policy)
+  - CKV_AZURE_41
+  # CKV_AZURE_109: Ensure that Key Vault allows trusted Microsoft services to bypass network ACLs
+  - CKV_AZURE_109
+
+# Output configuration
+output:
+  - cli
+  - sarif
+output-file-path: checkov-report.sarif
