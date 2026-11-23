@@ -18,3 +18,21 @@ output "workspace_customer_id" {
   description = "The Workspace (Customer) ID for the Log Analytics Workspace."
   value       = azurerm_log_analytics_workspace.law.workspace_id
 }
+
+
+output "app_insights_id" {
+  description = "The Resource ID of the Application Insights component."
+  value       = azurerm_application_insights.app_insights.id
+}
+
+output "app_insights_instrumentation_key" {
+  description = "The Instrumentation Key for Application Insights (sensitive)."
+  value       = azurerm_application_insights.app_insights.instrumentation_key
+  sensitive   = true
+}
+
+output "app_insights_connection_string" {
+  description = "The Connection String for Application Insights (sensitive)."
+  value       = azurerm_application_insights.app_insights.connection_string
+  sensitive   = true
+}
