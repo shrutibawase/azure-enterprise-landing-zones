@@ -1,0 +1,13 @@
+# Infracost FinOps Pipeline Configuration
+# Documentation: https://www.infracost.io/docs/features/config_file/
+
+version: 0.1
+
+projects:
+  - path: .
+    name: enterprise-landing-zone-prod
+    terraform_var_files:
+      - terraform.tfvars.example
+    usage_file: infracost-usage.yml
+
+currency: USD

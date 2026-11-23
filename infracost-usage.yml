@@ -1,0 +1,17 @@
+# Infracost Usage File - Dynamic Cost Estimation Baseline
+version: 0.1
+
+resource_usage:
+  module.networking.azurerm_virtual_network.vnet:
+    vnet_peering_data_processed_gb: 250.0
+
+  module.firewall.azurerm_firewall.fw:
+    data_processed_gb: 500.0
+
+  module.storage.azurerm_storage_account.storage:
+    storage_gb: 100.0
+    monthly_write_operations: 100000
+    monthly_read_operations: 500000
+
+  module.app_gateway.azurerm_application_gateway.appgw:
+    capacity_units: 2
