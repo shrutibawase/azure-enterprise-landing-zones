@@ -27,3 +27,10 @@ variable "policy_assignments" {
   }))
   default = {}
 }
+
+
+variable "enable_cis_benchmark" {
+  description = "Enable CIS Microsoft Azure Foundations Benchmark v2.0 initiative assignment."
+  type        = bool
+  default     = true
+}
