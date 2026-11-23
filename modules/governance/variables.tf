@@ -34,3 +34,15 @@ variable "enable_cis_benchmark" {
   type        = bool
   default     = true
 }
+
+
+variable "policy_exemptions" {
+  description = "Map of policy exemptions for emergency or architectural waivers."
+  type = map(object({
+    policy_assignment_id = string
+    exemption_category   = optional(string, "Mitigated")
+    expires_on           = optional(string, null)
+    description          = optional(string, "Approved architectural policy waiver.")
+  }))
+  default = {}
+}

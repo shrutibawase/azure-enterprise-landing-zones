@@ -25,3 +25,9 @@ output "custom_policy_allowed_locations_id" {
   description = "Resource ID of the custom allowed locations policy definition."
   value       = azurerm_policy_definition.allowed_locations.id
 }
+
+
+output "policy_exemption_ids" {
+  description = "Map of policy exemption names to their Resource IDs."
+  value       = { for k, v in azurerm_subscription_policy_exemption.exemptions : k => v.id }
+}
