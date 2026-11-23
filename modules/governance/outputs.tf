@@ -13,3 +13,9 @@ output "cis_benchmark_assignment_id" {
   description = "The Policy Assignment ID for the CIS Azure Foundations Benchmark v2.0."
   value       = var.enable_cis_benchmark ? azurerm_subscription_policy_assignment.cis_benchmark[0].id : null
 }
+
+
+output "custom_policy_require_tags_id" {
+  description = "Resource ID of the custom mandatory tags policy definition."
+  value       = azurerm_policy_definition.require_tags.id
+}
