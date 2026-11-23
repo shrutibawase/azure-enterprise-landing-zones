@@ -47,3 +47,19 @@ output "data_collection_rule_immutable_id" {
   description = "The immutable ID of the Azure Monitor Data Collection Rule."
   value       = azurerm_monitor_data_collection_rule.dcr.immutable_id
 }
+
+
+output "alert_failed_requests_id" {
+  description = "The Resource ID of the Application Insights failed requests metric alert."
+  value       = azurerm_monitor_metric_alert.app_insights_failed_requests.id
+}
+
+output "alert_response_time_id" {
+  description = "The Resource ID of the Application Insights response time metric alert."
+  value       = azurerm_monitor_metric_alert.app_insights_response_time.id
+}
+
+output "alert_vmss_high_cpu_id" {
+  description = "The Resource ID of the VMSS high CPU metric alert (if enabled)."
+  value       = length(azurerm_monitor_metric_alert.vmss_high_cpu) > 0 ? azurerm_monitor_metric_alert.vmss_high_cpu[0].id : null
+}

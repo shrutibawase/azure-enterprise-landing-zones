@@ -30,3 +30,10 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "target_vmss_id" {
+  description = "Optional Virtual Machine Scale Set Resource ID to attach CPU and memory metric alerts."
+  type        = string
+  default     = null
+}
