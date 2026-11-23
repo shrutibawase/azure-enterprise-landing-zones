@@ -23,8 +23,8 @@ resource "azurerm_storage_account" "storage" {
   dynamic "customer_managed_key" {
     for_each = var.customer_managed_key_id != null && var.user_assigned_identity_id != null ? [1] : []
     content {
-      key_vault_key_id                  = var.customer_managed_key_id
-      user_assigned_identity_id         = var.user_assigned_identity_id
+      key_vault_key_id          = var.customer_managed_key_id
+      user_assigned_identity_id = var.user_assigned_identity_id
     }
   }
 

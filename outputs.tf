@@ -28,3 +28,19 @@ output "firewall_public_ip" {
   description = "Public IP of the central Azure Firewall."
   value       = module.firewall.firewall_public_ip
 }
+
+
+output "cis_benchmark_assignment_id" {
+  description = "The Policy Assignment ID for the CIS Azure Foundations Benchmark v2.0."
+  value       = module.governance.cis_benchmark_assignment_id
+}
+
+output "custom_policy_require_tags_id" {
+  description = "Resource ID of the custom mandatory tags policy definition."
+  value       = module.governance.custom_policy_require_tags_id
+}
+
+output "custom_policy_allowed_locations_id" {
+  description = "Resource ID of the custom allowed locations policy definition."
+  value       = module.governance.custom_policy_allowed_locations_id
+}

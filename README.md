@@ -212,3 +212,29 @@ The landing zone integrates resilient web-tier ingress and self-healing scale se
   # PowerShell
   .\scripts\test-compute.ps1
   ```
+
+
+---
+
+## 🏛️ Policy-as-Code, CIS Azure Compliance & FinOps
+
+The landing zone integrates automated shift-left code analysis and runtime policy guardrails:
+
+- **CIS Azure Foundations Benchmark v2.0**: Automated subscription-wide compliance initiative (`modules/governance/cis_benchmark.tf`).
+- **Custom Deny Policies**: Enforces mandatory enterprise tagging (`require_tags.json`) and data sovereignty geo-fencing (`allowed_locations.json`).
+- **Time-Bound Policy Exemptions**: Audited architectural waivers (`modules/governance/exemptions.tf`) with expiration timestamps.
+- **TFLint Static Analysis**: Official AzureRM ruleset verification via `.tflint.hcl`.
+- **Checkov Security Analysis**: Documented IaC security baselines and suppressions via `.checkov.yml`.
+- **Infracost FinOps Gates**: Pull request cost diff breakdowns and budget anomaly detection (`infracost.yml`).
+
+### Architectural Guide & Tests
+
+- [Policy-as-Code & Compliance Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/policy-as-code-guide.md)
+- Run automated governance test suite:
+  ```bash
+  # Bash
+  ./scripts/test-governance.sh
+
+  # PowerShell
+  .\scripts\test-governance.ps1
+  ```

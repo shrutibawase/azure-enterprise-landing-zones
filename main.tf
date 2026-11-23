@@ -1,9 +1,10 @@
 module "governance" {
   source = "./modules/governance"
 
-  subscription_id = var.subscription_id
-  resource_groups = var.resource_groups
-  global_tags     = var.global_tags
+  subscription_id      = var.subscription_id
+  resource_groups      = var.resource_groups
+  global_tags          = var.global_tags
+  enable_cis_benchmark = true
   policy_assignments = {
     "require-resource-tags" = {
       policy_definition_id   = "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c14969fafe3d"

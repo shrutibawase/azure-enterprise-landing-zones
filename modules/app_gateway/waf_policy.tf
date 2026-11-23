@@ -30,8 +30,8 @@ resource "azurerm_web_application_firewall_policy" "waf_policy" {
     rule_type = "RateLimitRule"
     action    = "Block"
 
-    rate_limit_duration    = "OneMin"
-    rate_limit_threshold   = 100
+    rate_limit_duration  = "OneMin"
+    rate_limit_threshold = 100
 
     match_conditions {
       match_variables {
