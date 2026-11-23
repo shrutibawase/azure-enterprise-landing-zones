@@ -37,3 +37,16 @@ variable "target_vmss_id" {
   type        = string
   default     = null
 }
+
+
+variable "notification_email" {
+  description = "Default email address for enterprise security and operational alert notifications."
+  type        = string
+  default     = "secops@enterprise-domain.internal"
+}
+
+variable "webhook_service_uri" {
+  description = "Optional HTTPS webhook URI for incident management integration (PagerDuty / ServiceNow / Teams)."
+  type        = string
+  default     = "https://events.pagerduty.com/integration/azure/alerts"
+}

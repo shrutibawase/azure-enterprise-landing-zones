@@ -63,3 +63,9 @@ output "alert_vmss_high_cpu_id" {
   description = "The Resource ID of the VMSS high CPU metric alert (if enabled)."
   value       = length(azurerm_monitor_metric_alert.vmss_high_cpu) > 0 ? azurerm_monitor_metric_alert.vmss_high_cpu[0].id : null
 }
+
+
+output "action_group_id" {
+  description = "The Resource ID of the Azure Monitor Action Group for incident notifications."
+  value       = azurerm_monitor_action_group.critical_incidents.id
+}

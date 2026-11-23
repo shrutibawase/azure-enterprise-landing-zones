@@ -18,6 +18,10 @@ resource "azurerm_monitor_metric_alert" "app_insights_failed_requests" {
     threshold        = 10
   }
 
+  action {
+    action_group_id = azurerm_monitor_action_group.critical_incidents.id
+  }
+
   tags = merge(
     var.tags,
     {
@@ -42,6 +46,10 @@ resource "azurerm_monitor_metric_alert" "app_insights_response_time" {
     aggregation      = "Average"
     operator         = "GreaterThan"
     threshold        = 2000
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.critical_incidents.id
   }
 
   tags = merge(
@@ -69,6 +77,10 @@ resource "azurerm_monitor_metric_alert" "vmss_high_cpu" {
     aggregation      = "Average"
     operator         = "GreaterThan"
     threshold        = 85
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.critical_incidents.id
   }
 
   tags = merge(
