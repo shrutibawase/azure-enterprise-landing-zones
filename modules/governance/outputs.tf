@@ -19,3 +19,9 @@ output "custom_policy_require_tags_id" {
   description = "Resource ID of the custom mandatory tags policy definition."
   value       = azurerm_policy_definition.require_tags.id
 }
+
+
+output "custom_policy_allowed_locations_id" {
+  description = "Resource ID of the custom allowed locations policy definition."
+  value       = azurerm_policy_definition.allowed_locations.id
+}

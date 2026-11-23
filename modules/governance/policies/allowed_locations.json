@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "location",
+        "notIn": [
+          "eastus2",
+          "centralus",
+          "global"
+        ]
+      },
+      {
+        "field": "location",
+        "notEquals": ""
+      },
+      {
+        "field": "type",
+        "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
+      }
+    ]
+  },
+  "then": {
+    "effect": "deny"
+  }
+}
