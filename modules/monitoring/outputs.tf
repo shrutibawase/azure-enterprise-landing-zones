@@ -36,3 +36,14 @@ output "app_insights_connection_string" {
   value       = azurerm_application_insights.app_insights.connection_string
   sensitive   = true
 }
+
+
+output "data_collection_rule_id" {
+  description = "The Resource ID of the Azure Monitor Data Collection Rule."
+  value       = azurerm_monitor_data_collection_rule.dcr.id
+}
+
+output "data_collection_rule_immutable_id" {
+  description = "The immutable ID of the Azure Monitor Data Collection Rule."
+  value       = azurerm_monitor_data_collection_rule.dcr.immutable_id
+}
