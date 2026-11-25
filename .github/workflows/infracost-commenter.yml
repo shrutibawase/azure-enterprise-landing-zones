@@ -1,0 +1,49 @@
+name: "FinOps Infracost PR Cost Guardrail"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  infracost-analysis:
+    name: "FinOps Cost Policy & Diff"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Base Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Generate Infracost Baseline
+        run: |
+          infracost breakdown --path=. \
+                              --format=json \
+                              --out-file=/tmp/infracost-base.json
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+
+      - name: Generate Infracost Diff
+        run: |
+          infracost diff --path=. \
+                         --format=json \
+                         --compare-to=/tmp/infracost-base.json \
+                         --out-file=/tmp/infracost-diff.json
+
+      - name: Post Infracost PR Comment
+        run: |
+          infracost comment github --path=/tmp/infracost-diff.json \
+                                   --repo=${{ github.repository }} \
+                                   --github-token=${{ secrets.GITHUB_TOKEN }} \
+                                   --pull-request=${{ github.event.pull_request.number }} \
+                                   --behavior=update
