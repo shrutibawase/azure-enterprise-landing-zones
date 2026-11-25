@@ -119,3 +119,35 @@ module "monitoring" {
 
   depends_on = [module.governance, module.compute]
 }
+
+
+module "backup" {
+  source = "./modules/backup"
+
+  resource_group_name          = contains(keys(var.resource_groups), "rg-enterprise-security-${var.environment}") ? "rg-enterprise-security-${var.environment}" : keys(var.resource_groups)[0]
+  location                     = var.primary_location
+  vault_name                   = "rsv-enterprise-${var.environment}"
+  sku                          = "Standard"
+  storage_mode_type            = "GeoRedundant"
+  cross_region_restore_enabled = true
+  soft_delete_enabled          = true
+  backup_policy_name           = "policy-daily-enterprise-backup"
+
+  tags = var.global_tags
+
+  depends_on = [module.governance]
+}
+
+module "dr" {
+  source = "./modules/dr"
+
+  primary_location          = var.primary_location
+  secondary_location        = "centralus"
+  rpo_minutes               = 15
+  rto_minutes               = 60
+  enable_automated_failover = true
+
+  tags = var.global_tags
+
+  depends_on = [module.governance]
+}

@@ -65,3 +65,24 @@ output "action_group_id" {
   description = "The Resource ID of the Azure Monitor Action Group for incident alerting."
   value       = module.monitoring.action_group_id
 }
+
+
+output "recovery_services_vault_id" {
+  description = "The Resource ID of the Recovery Services Vault for cross-region backup."
+  value       = module.backup.vault_id
+}
+
+output "backup_policy_id" {
+  description = "The Resource ID of the daily backup policy."
+  value       = module.backup.backup_policy_id
+}
+
+output "dr_secondary_region" {
+  description = "Paired secondary disaster recovery region."
+  value       = module.dr.secondary_region
+}
+
+output "dr_status" {
+  description = "Disaster Recovery pairing verification and SLA status."
+  value       = module.dr.dr_status
+}
