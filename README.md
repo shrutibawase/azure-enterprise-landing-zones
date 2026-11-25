@@ -264,3 +264,29 @@ The landing zone integrates a centralized telemetry, log aggregation, and incide
   # PowerShell
   .\scripts\test-monitoring.ps1
   ```
+
+
+---
+
+## 🔄 Enterprise GitOps CI/CD, OIDC & Automated Drift Remediation
+
+The landing zone features an automated, zero-trust continuous delivery pipeline and drift management framework:
+
+- **Passwordless OIDC Authentication**: Workflows authenticate to Microsoft Entra ID using OpenID Connect (`id-token: write`), completely eliminating static service principal secrets.
+- **Multi-Environment Promotion Matrix**: Dedicated staging environments (`environments/dev/`, `environments/uat/`, `environments/prod/`) with concurrency locks and manual approval gates for production.
+- **Automated Nightly Drift Detection**: Scheduled workflow (`.github/workflows/drift-detection.yml`) detecting state divergence across environments and creating prioritized GitHub Issues.
+- **Self-Healing State Reconciliation**: Automated CLI engines (`scripts/reconcile-drift.sh` and `scripts/reconcile-drift.ps1`) supporting `--auto-apply`, `--refresh-only`, and drift artifact inspection.
+- **FinOps PR Cost Guardrail**: Automated Infracost commentary (`.github/workflows/infracost-commenter.yml`) detecting cost anomalies before merge.
+- **DRY Terragrunt Architecture**: Root Terragrunt (`terragrunt.hcl`) with dynamic remote state backend generation in Azure Blob Storage.
+
+### Architectural Guide & Tests
+
+- [Multi-Environment CI/CD & Drift Remediation Guide](file:///D:/project/antigravity/azure-enterprise-landing-zones/docs/cicd-and-drift-remediation-guide.md)
+- Run automated pipeline validation suite:
+  ```bash
+  # Bash
+  ./scripts/test-pipeline.sh
+
+  # PowerShell
+  .\scripts\test-pipeline.ps1
+  ```
